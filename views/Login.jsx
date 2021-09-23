@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 
-export default function Login() {
+export default function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,9 +20,13 @@ export default function Login() {
         placeholder="Your password"
         secureTextEntry={true}
       />
-      <Text>Please log in with your username and password</Text>
+      <Text style={styles.text}>
+        Please log in with your username and password
+      </Text>
       <Button
         onPress={() => {
+          props.history.push("/Home", { username });
+
           console.log("data: ", { username, password });
         }}
         title="Login"
@@ -44,6 +48,12 @@ const styles = StyleSheet.create({
     width: "90%",
     margin: 12,
     borderWidth: 1,
-    padding: 10,
+    padding: 20,
+  },
+
+  text: {
+    color: "gray",
+    fontSize: 20,
+    padding: 20,
   },
 });
