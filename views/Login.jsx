@@ -1,9 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function Login(props) {
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(
+    location.state ? location.state.username : ""
+  );
   const [password, setPassword] = useState("");
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  useEffect(() => {
+    if (username.length >= 5 && password.length >= 5) {
+      setIsDisabled(false);
+      setErrorMsg("");
+    } else if (username.length >= 1 && password.length >= 1) {
+      setErrorMsg("Your username and password must be at least 5 characters.");
+    }
+  }, [username, password]);
 
   return (
     <View style={styles.centeredView}>
@@ -21,14 +34,12 @@ export default function Login(props) {
         secureTextEntry={true}
       />
       <Text style={styles.text}>
-        Please log in with your username and password
+        {errorMsg}
+        Please try again
       </Text>
       <Button
-        onPress={() => {
-          props.history.push("/Home", { username });
-
-          console.log("data: ", { username, password });
-        }}
+        onPress={() => props.history.push("/Home", { username })}
+        disabled={isDisabled}
         title="Login"
       />
     </View>
@@ -55,5 +66,11 @@ const styles = StyleSheet.create({
     color: "gray",
     fontSize: 20,
     padding: 20,
+  },
+
+  errorMsg: {
+    color: "orange",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
