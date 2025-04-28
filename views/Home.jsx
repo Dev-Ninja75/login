@@ -5,7 +5,7 @@ export default function Home(props) {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>
-        Thank you and welcome {props.location.state.username}
+        Thank you and welcome to the jungle{props.location.state.username}
       </Text>
       <TouchableOpacity>
         <Text>Click Opacity</Text>
